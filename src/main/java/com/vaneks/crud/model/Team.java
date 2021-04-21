@@ -1,12 +1,23 @@
 package com.vaneks.crud.model;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "teams")
 public class Team {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column (name = "id")
     private Long id;
+
+    @Column (name = "name")
     private String name;
+
     private List<Developer> developers;
+
     private TeamStatus teamStatus;
 
     public  Team(){};

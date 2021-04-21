@@ -1,11 +1,24 @@
 package com.vaneks
         .crud.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "skills")
 public class Skill {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column (name = "id")
     private Long id;
+
+    @Column (name = "skillName")
     private String name;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private Developer developer;
 
     public Skill(Long id, String name) {
         this.id = id;

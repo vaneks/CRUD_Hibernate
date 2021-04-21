@@ -1,12 +1,25 @@
 package com.vaneks.crud.model;
 
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "developers")
 public class Developer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column (name = "id")
     private Long id;
+
+    @Column (name = "firstName")
     private String firstName;
+
+    @Column (name = "lastName")
     private String lastName;
+
+    @ManyToMany(mappedBy = "skill")
+    @Column (name = "lastName")
     private List<Skill> skills;
 
     public Developer(Long id, String firstName, String lastName, List<Skill> skills) {
