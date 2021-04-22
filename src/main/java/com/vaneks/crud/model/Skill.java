@@ -11,14 +11,12 @@ public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column (name = "id")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "dev_skills", joinColumns = @JoinColumn (name = "dev_id" ))
     private Long id;
 
     @Column (name = "skillName")
     private String name;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Developer developer;
 
     public Skill(Long id, String name) {
         this.id = id;

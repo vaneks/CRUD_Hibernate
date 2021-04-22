@@ -18,8 +18,8 @@ public class Developer {
     @Column (name = "lastName")
     private String lastName;
 
-    @ManyToMany(mappedBy = "skill")
-    @Column (name = "lastName")
+    @ManyToMany
+    @JoinTable(name = "dev_skills", joinColumns = @JoinColumn (name = "skill_id" ))
     private List<Skill> skills;
 
     public Developer(Long id, String firstName, String lastName, List<Skill> skills) {
