@@ -9,15 +9,25 @@ import java.util.Objects;
 public class Team {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "id")
     private Long id;
 
     @Column (name = "name")
     private String name;
 
+    @ManyToMany(cascade = {
+            CascadeType.ALL
+    })
+    @JoinTable(
+            name = "team_dev",
+            joinColumns = { @JoinColumn(name = "team_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "dev_id", referencedColumnName = "id") }
+    )
     private List<Developer> developers;
 
+    @Column (name = "status")
+    @Enumerated(EnumType.STRING)
     private TeamStatus teamStatus;
 
     public  Team(){};

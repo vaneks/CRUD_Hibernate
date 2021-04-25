@@ -1,7 +1,7 @@
-package com.vaneks
-        .crud.model;
+package com.vaneks.crud.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -9,10 +9,8 @@ import java.util.Objects;
 public class Skill {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column (name = "id")
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "dev_skills", joinColumns = @JoinColumn (name = "dev_id" ))
     private Long id;
 
     @Column (name = "skillName")
@@ -22,6 +20,15 @@ public class Skill {
         this.id = id;
         this.name = name;
     }
+
+    @ManyToMany( fetch=FetchType.LAZY,cascade=CascadeType.ALL )
+    @JoinTable(
+            name = "dev_skills",
+            joinColumns = { @JoinColumn(name = "skill_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "dev_id", referencedColumnName = "id") }
+    )
+    private List<Developer> developers;
+
     public Skill(){}
 
     @Override
@@ -45,17 +52,26 @@ public class Skill {
         this.name = name;
     }
 
+    public List<Developer> getDevelopers() {
+        return developers;
+    }
+
+    public void setDevelopers(List<Developer> developers) {
+        this.developers = developers;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Skill skill = (Skill) o;
-        return id.equals(skill.id) &&
-                name.equals(skill.name);
+        return Objects.equals(id, skill.id) &&
+                Objects.equals(name, skill.name) &&
+                Objects.equals(developers, skill.developers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, developers);
     }
 }

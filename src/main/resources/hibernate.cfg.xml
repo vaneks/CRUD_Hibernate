@@ -7,20 +7,26 @@
         <property name="hibernate.dialect">
             org.hibernate.dialect.MySQLDialect
         </property>
+
         <property name="hibernate.connection.driver_class">
             com.mysql.cj.jdbc.Driver
         </property>
 
-        <!-- Assume test is the database name -->
         <property name="hibernate.connection.url">
             jdbc:mysql://localhost/crud
         </property>
+
         <property name="hibernate.connection.username">
-            admin
+            root
         </property>
+
         <property name="hibernate.connection.password">
             22272627q!
         </property>
+
+        <mapping class="com.vaneks.crud.model.Skill"/>
+        <mapping class="com.vaneks.crud.model.Developer"/>
+        <mapping class="com.vaneks.crud.model.Team"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -8,19 +8,36 @@ import java.util.Objects;
 @Table(name = "developers")
 public class Developer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column (name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column (name = "firstName")
+    @Column(name = "firstName")
     private String firstName;
 
-    @Column (name = "lastName")
+    @Column(name = "lastName")
     private String lastName;
 
-    @ManyToMany
-    @JoinTable(name = "dev_skills", joinColumns = @JoinColumn (name = "skill_id" ))
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(
+            name = "dev_skills",
+            joinColumns = { @JoinColumn(name = "dev_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "skill_id", referencedColumnName = "id") }
+    )
     private List<Skill> skills;
+
+    @ManyToMany( fetch=FetchType.LAZY,cascade=CascadeType.ALL )
+    @JoinTable(
+            name = "team_dev",
+            joinColumns = { @JoinColumn(name = "dev_id", referencedColumnName = "id") },
+            inverseJoinColumns = { @JoinColumn(name = "team_id", referencedColumnName = "id") }
+    )
+    private List<Team> team;
+
+
 
     public Developer(Long id, String firstName, String lastName, List<Skill> skills) {
         this.id = id;
@@ -28,6 +45,7 @@ public class Developer {
         this.lastName = lastName;
         this.skills = skills;
     }
+
     public Developer() {}
 
     @Override
@@ -67,6 +85,13 @@ public class Developer {
         this.skills = skills;
     }
 
+    public List<Team> getTeams() {
+        return team;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.team = teams;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
