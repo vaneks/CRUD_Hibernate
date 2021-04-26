@@ -53,7 +53,7 @@ public class JdbcTeamRepository implements TeamRepository {
     public Team update(Team team) {
         Session session = HibernateSession.getSession();
         session.beginTransaction();
-        session.update(team);
+        session.merge(team);
         session.getTransaction().commit();
         return team;
     }
